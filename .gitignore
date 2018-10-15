@@ -62,3 +62,6 @@ typings/
 
 # Truffle build
 build
+
+# Mnemonic file
+mnemonic.json

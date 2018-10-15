@@ -1,4 +1,13 @@
+const { mnemonic } = require('./mnemonic.json')
+var HDWalletProvider = require("truffle-hdwallet-provider")
+
 module.exports = {
-  // See <http://truffleframework.com/docs/advanced/configuration>
-  // to customize your Truffle configuration!
-};
+  networks: {
+    kovan: {
+      provider: function() {
+        return new HDWalletProvider(mnemonic, "https://kovan.infura.io/PdVPgNTV1k5pQ");
+      },
+      network_id: '42'
+    }
+  }
+}

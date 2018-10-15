@@ -15,10 +15,10 @@ const getWeb3 = () =>
         console.log("Injected web3 detected.");
         resolve(web3);
       } else {
-        // Fallback to localhost if no web3 injection. We've configured this to
-        // use the development console's port by default.
+        // Fallback to localhost if no web3 injection. I've configured this to
+        // connect to the kovan network
         const provider = new Web3.providers.HttpProvider(
-          "http://127.0.0.1:9545"
+          "https://kovan.infura.io/PdVPgNTV1k5pQ"
         );
         web3 = new Web3(provider);
         console.log("No web3 instance injected, using Local web3.");
