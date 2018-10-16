@@ -1,6 +1,6 @@
-const { artifacts } = global
-var SimpleStorage = artifacts.require('./SimpleStorage.sol')
+/* global artifacts */
+var BSACourse = artifacts.require('./BSACourse.sol')
 
 module.exports = function (deployer) {
-  deployer.deploy(SimpleStorage)
+  deployer.deploy(BSACourse, 'Build your own Dapp', 1)
 }
