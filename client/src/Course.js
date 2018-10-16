@@ -14,25 +14,25 @@ class Course extends Component {
     }
     this.getValues = this.getValues.bind(this)
   }
-  
+
   async componentDidMount () {
     await this.getValues()
     this.setState({ interval: setInterval(this.getValues, 1000) })
   }
-  
+
   async getValues () {
     const { contract } = this.props
 
     const name = await contract.name()
     const credits = await contract.credits()
     const numberOfAttendants = await contract.numberOfAttendants()
-    
+
     this.setState({
       name,
       credits: credits.toNumber(),
       numberOfAttendants: numberOfAttendants.toNumber()
     })
-    
+
     // Stores a given value, 5 by default.
     // await contract.set(5, { from: accounts[0] })
 
@@ -42,7 +42,7 @@ class Course extends Component {
     // Update state with the result.
     // this.setState({ storageValue: response.toNumber() })
   }
-  
+
   render () {
     return (
       <Fragment>

@@ -36,7 +36,6 @@ class App extends Component {
       // example of interacting with the contract's methods.
       this.setState({ web3, accounts, contract: instance }, async () => {
       })
-
     } catch (error) {
       // Catch any errors for any of the above operations.
       window.alert(
@@ -45,12 +44,11 @@ class App extends Component {
       console.log(error)
     }
   }
-  
-  
+
   componentWillUnmount () {
     clearInterval(this.state.interval)
   }
-  
+
   render () {
     if (!this.state.web3) {
       return <h1 className='title has-text-centered'>Loading...</h1>
