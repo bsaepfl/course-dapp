@@ -5,7 +5,9 @@ contract BSACourse {
   uint public credits;
   address public university;
   bool public ended;
-  mapping(address => bool) attendants;
+  uint public numberOfAttendants;
+  uint public numberOfRecipients;
+  mapping(address => bool) public attendants;
   mapping(address => bool) public recipients;
   
   constructor(string _name, uint _credits) public {
@@ -26,11 +28,13 @@ contract BSACourse {
   
   function enroll() public stillOpen() {
     attendants[msg.sender] = true;
+    numberOfAttendants++;
   }
   
   function pass(address student) public onlyUniversity() stillOpen() {
     require(attendants[student]);
     recipients[student] = true;
+    numberOfRecipients++;
   }
   
   function close() public onlyUniversity() stillOpen() {

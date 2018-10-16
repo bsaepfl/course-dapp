@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import BSACourseContract from './contracts/BSACourse.json'
 import getWeb3 from './utils/getWeb3'
 import truffleContract from 'truffle-contract'
+import Course from './Course'
 
+import 'blulma/blulma.css'
 import './App.css'
 
 class App extends Component {
@@ -12,6 +14,7 @@ class App extends Component {
       web3: null,
       accounts: null,
       contract: null,
+      interval: null,
       name: ''
     }
   }
@@ -31,10 +34,9 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance })
+      this.setState({ web3, accounts, contract: instance }, async () => {
+      })
 
-      const name = await instance.name()
-      this.setState({ name })
     } catch (error) {
       // Catch any errors for any of the above operations.
       window.alert(
@@ -43,28 +45,21 @@ class App extends Component {
       console.log(error)
     }
   }
-  /*
-  async runExample () {
-    const { accounts, contract } = this.state
-
-    // Stores a given value, 5 by default.
-    await contract.set(5, { from: accounts[0] })
-
-    // Get the value from the contract to prove it worked.
-    const response = await contract.get()
-
-    // Update state with the result.
-    this.setState({ storageValue: response.toNumber() })
+  
+  
+  componentWillUnmount () {
+    clearInterval(this.state.interval)
   }
-  */
+  
   render () {
     if (!this.state.web3) {
-      return <div>Loading Web3, accounts, and contract...</div>
+      return <h1 className='title has-text-centered'>Loading...</h1>
     }
     return (
-      <div className='App'>
-        <h1>BSA Course</h1>
-        <p>The course name is: {this.state.name}</p>
+      <div className='container'>
+        <div className='section'>
+          <Course contract={this.state.contract} />
+        </div>
       </div>
     )
   }
