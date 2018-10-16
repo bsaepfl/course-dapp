@@ -12,10 +12,7 @@ class App extends Component {
     super()
     this.state = {
       web3: null,
-      accounts: null,
-      contract: null,
-      interval: null,
-      name: ''
+      contract: null
     }
   }
 
@@ -24,9 +21,6 @@ class App extends Component {
       // Get network provider and web3 instance.
       const web3 = await getWeb3()
 
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts()
-
       // Get the contract instance.
       const Contract = truffleContract(BSACourseContract)
       Contract.setProvider(web3.currentProvider)
@@ -34,7 +28,7 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, async () => {
+      this.setState({ web3, contract: instance }, async () => {
       })
     } catch (error) {
       // Catch any errors for any of the above operations.
@@ -45,10 +39,6 @@ class App extends Component {
     }
   }
 
-  componentWillUnmount () {
-    clearInterval(this.state.interval)
-  }
-
   render () {
     if (!this.state.web3) {
       return <h1 className='title has-text-centered'>Loading...</h1>
@@ -56,7 +46,7 @@ class App extends Component {
     return (
       <div className='container'>
         <div className='section'>
-          <Course contract={this.state.contract} />
+          <Course contract={this.state.contract} web3={this.state.web3} />
         </div>
       </div>
     )

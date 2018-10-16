@@ -10,6 +10,8 @@ contract BSACourse {
   mapping(address => bool) public attendants;
   mapping(address => bool) public recipients;
   
+  event StudentEnrolled(address student);
+  
   constructor(string _name, uint _credits) public {
     university = msg.sender;
     name = _name;
@@ -27,8 +29,10 @@ contract BSACourse {
   }
   
   function enroll() public stillOpen() {
+    require(!attendants[msg.sender]);
     attendants[msg.sender] = true;
     numberOfAttendants++;
+    emit StudentEnrolled(msg.sender);
   }
   
   function pass(address student) public onlyUniversity() stillOpen() {
