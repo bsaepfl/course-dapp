@@ -34,12 +34,12 @@ class Course extends Component {
       numberOfAttendants: numberOfAttendants.toNumber()
     })
   }
-  
+
   async enroll () {
     const accounts = await this.props.web3.eth.getAccounts()
     this.props.contract.enroll({ from: accounts[0] })
   }
-  
+
   componentWillUnmount () {
     clearInterval(this.state.interval)
   }
