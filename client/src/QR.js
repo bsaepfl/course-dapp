@@ -8,13 +8,16 @@ class QR extends Component {
     super(props)
     this.state = {
       notEnabled: true,
-      loading: true
+      loading: true,
+      video: null
     }
   }
   componentDidMount () {
     const video = document.createElement('video')
     const canvasElement = document.getElementById('qrCanvas')
     const canvas = canvasElement.getContext('2d')
+
+    this.setState({ video })
 
     const drawLine = (begin, end, color) => {
       canvas.beginPath()
@@ -55,6 +58,11 @@ class QR extends Component {
       requestAnimationFrame(tick)
     }
   }
+
+  componentWillUnmount () {
+    this.state.video.pause()
+  }
+
   render () {
     let message
     if (this.state.notEnabled) { message = <div><span role='img' aria-label='camera'>🎥</span> Unable to access video stream (please make sure you have a webcam enabled)</div> } else if (this.state.loading) { message = <div><span role='img' aria-label='time'>⌛</span> Loading video...</div> }
