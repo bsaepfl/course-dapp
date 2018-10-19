@@ -98,11 +98,11 @@ class App extends Component {
             <h4 className='subtitle is-5'>contract {this.state.contract.address}</h4>
             <div className='columns'>
               <div className='column is-6 has-text-centered'>
-                <span role='img' aria-label='nerd'>🤓</span>
+                <span role='img' aria-label='nerd'>🤓 </span>
                 {this.state.numberOfAttendants}
               </div>
               <div className='column is-6 has-text-centered'>
-                <span role='img' aria-label='student'>🎓</span>
+                <span role='img' aria-label='student'>🎓 </span>
                 {this.state.numberOfRecipients}
               </div>
             </div>
