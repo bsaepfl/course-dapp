@@ -1,10 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import QR from './QR'
 
 class University extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      name: '',
+      credits: '',
+      numberOfAttendants: 0,
+      numberOfRecipients: 0,
       interval: null,
       qrData: null,
       looking: false
@@ -20,7 +24,7 @@ class University extends Component {
 
   async getValues () {
     const { contract } = this.props
-    // const accounts = await this.props.web3.eth.getAccounts()
+    const accounts = await this.props.web3.eth.getAccounts()
 
     const name = await contract.name()
     const credits = await contract.credits()
@@ -31,13 +35,18 @@ class University extends Component {
       name,
       credits: credits.toNumber(),
       numberOfAttendants: numberOfAttendants.toNumber(),
-      numberOfRecipients: numberOfRecipients.toNumber()
+      numberOfRecipients: numberOfRecipients.toNumber(),
+      address: accounts[0]
     })
   }
 
-  findQR (qrData) {
+  async findQR (qrData) {
     if (this.props.web3.utils.isAddress(qrData)) {
       this.setState({ qrData, looking: false })
+      const isAttendant = await this.props.contract.attendants(qrData)
+      if (isAttendant) {
+        await this.props.contract.pass(qrData, { from: this.state.address })
+      }
     }
   }
 
@@ -47,7 +56,7 @@ class University extends Component {
 
   render () {
     return (
-      <div>
+      <Fragment>
         <h1 className='title'>BSA Course - University page</h1>
         <h2 className='subtitle'>{this.state.name} [{this.state.credits} credit(s)]</h2>
         <h4 className='title is-6'>contract {this.props.contract.address}</h4>
@@ -58,8 +67,9 @@ class University extends Component {
           </button>
           : <QR onFind={this.findQR} />
         }
-
-      </div>
+        <p>There are {this.state.numberOfAttendants} enrolled students.</p>
+        <p>There are {this.state.numberOfRecipients} passing students.</p>
+      </Fragment>
     )
   }
 }
