@@ -4,47 +4,7 @@ import { QRCode } from 'react-qr-svg'
 class Course extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      interval: null,
-      name: '',
-      credits: 0,
-      university: '',
-      numberOfAttendants: 0,
-      numberOfRecipients: 0,
-      isAttendant: false,
-      isRecipient: false,
-      ended: false,
-      address: ''
-    }
-    this.getValues = this.getValues.bind(this)
     this.enroll = this.enroll.bind(this)
-  }
-
-  async componentDidMount () {
-    await this.getValues()
-    this.setState({ interval: setInterval(this.getValues, 1000) })
-  }
-
-  async getValues () {
-    const { contract } = this.props
-    const accounts = await this.props.web3.eth.getAccounts()
-
-    const name = await contract.name()
-    const credits = await contract.credits()
-    const numberOfAttendants = await contract.numberOfAttendants()
-    const numberOfRecipients = await contract.numberOfRecipients()
-    const isAttendant = await contract.attendants(accounts[0])
-    const isRecipient = await contract.recipients(accounts[0])
-
-    this.setState({
-      name,
-      credits: credits.toNumber(),
-      numberOfAttendants: numberOfAttendants.toNumber(),
-      numberOfRecipients: numberOfRecipients.toNumber(),
-      isAttendant,
-      isRecipient,
-      address: accounts[0]
-    })
   }
 
   async enroll () {
@@ -52,30 +12,22 @@ class Course extends Component {
     this.props.contract.enroll({ from: accounts[0] })
   }
 
-  componentWillUnmount () {
-    clearInterval(this.state.interval)
-  }
-
   render () {
     return (
-      <Fragment>
-        <h1 className='title'>BSA Course</h1>
-        <h2 className='subtitle'>{this.state.name} [{this.state.credits} credit(s)]</h2>
-        <h4 className='title is-6'>contract {this.props.contract.address}</h4>
-        {!this.state.ended
+      <div className='box has-text-centered'>
+        {this.props.isRecipient &&
+          <h4 className='title is-4 has-text-primary'>You have passed this course.</h4>
+        }
+        {!this.props.ended
           ? (
             <Fragment>
-              <div className='has-text-centered'>
-                <button className='button is-primary is-large' disabled={this.state.isAttendant} onClick={this.enroll}>Enroll</button>
-              </div>
-              {this.state.isAttendant && (
-                <div className='has-text-centered'>
+              <button className='button is-primary is-large' disabled={this.props.isAttendant} onClick={this.enroll}>Enroll</button>
+              {this.props.isAttendant && (
+                <Fragment>
                   <p className='subtitle is-5'>You are enrolled !</p>
-                  <QRCode value={this.state.address} style={{ maxWidth: '300px', marginLeft: 'auto', position: 'relative' }} />
-                </div>
+                  <QRCode value={this.props.address} style={{ maxWidth: '300px', marginLeft: 'auto', position: 'relative' }} />
+                </Fragment>
               )}
-              <p>There are {this.state.numberOfAttendants} enrolled students.</p>
-              <p>There are {this.state.numberOfRecipients} passing students.</p>
             </Fragment>
           )
           : (
@@ -84,10 +36,7 @@ class Course extends Component {
             </Fragment>
           )
         }
-        {this.state.isRecipient &&
-          <h4 className='title is-6 has-text-primary'>You have passed this course.</h4>
-        }
-      </Fragment>
+      </div>
     )
   }
 }

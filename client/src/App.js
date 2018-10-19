@@ -14,8 +14,19 @@ class App extends Component {
     this.state = {
       web3: null,
       contract: null,
-      isUniversity: false
+      isUniversity: false,
+      interval: null,
+      name: null,
+      credits: 0,
+      university: '',
+      numberOfAttendants: 0,
+      numberOfRecipients: 0,
+      isAttendant: false,
+      isRecipient: false,
+      ended: false,
+      address: ''
     }
+    this.getValues = this.getValues.bind(this)
   }
 
   async componentDidMount () {
@@ -28,17 +39,15 @@ class App extends Component {
       Contract.setProvider(web3.currentProvider)
       const instance = await Contract.deployed()
 
-      const university = await instance.university()
-      const address = (await web3.eth.getAccounts())[0]
-      const isUniversity = address === university
-
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({
         web3,
-        contract: instance,
-        isUniversity
+        contract: instance
       })
+
+      await this.getValues()
+      this.setState({ interval: setInterval(this.getValues, 1000) })
     } catch (error) {
       // Catch any errors for any of the above operations.
       window.alert(
@@ -48,17 +57,74 @@ class App extends Component {
     }
   }
 
+  async getValues () {
+    const { contract, web3 } = this.state
+    const accounts = await web3.eth.getAccounts()
+    const address = (await web3.eth.getAccounts())[0]
+
+    const name = await contract.name()
+    const credits = await contract.credits()
+    const numberOfAttendants = await contract.numberOfAttendants()
+    const numberOfRecipients = await contract.numberOfRecipients()
+    const ended = await contract.ended()
+    const isAttendant = await contract.attendants(address)
+    const isRecipient = await contract.recipients(address)
+    const university = await contract.university()
+    const isUniversity = address === university
+
+    this.setState({
+      name,
+      credits: credits.toNumber(),
+      numberOfAttendants: numberOfAttendants.toNumber(),
+      numberOfRecipients: numberOfRecipients.toNumber(),
+      isAttendant,
+      isRecipient,
+      isUniversity,
+      ended,
+      address: accounts[0]
+    })
+  }
+
   render () {
-    if (!this.state.web3) {
+    if (!this.state.name) {
       return <h1 className='title has-text-centered'>Loading...</h1>
     }
     return (
       <div className='container'>
-        <div className='section'>
-          {this.state.isUniversity
-            ? <University contract={this.state.contract} web3={this.state.web3} />
-            : <Course contract={this.state.contract} web3={this.state.web3} />
-          }
+        <h1 className='title main-title'>Blockchain Student Association Dapp Workshop</h1>
+        <div className='columns'>
+          <div className='column is-6-tablet'>
+            <h1 className='title has-text-centered'>{this.state.name} [{this.state.credits} credit(s)]</h1>
+            <h4 className='subtitle is-5'>contract {this.state.contract.address}</h4>
+            <div className='columns'>
+              <div className='column is-6 has-text-centered'>
+                <span role='img' aria-label='nerd'>🤓</span>
+                {this.state.numberOfAttendants}
+              </div>
+              <div className='column is-6 has-text-centered'>
+                <span role='img' aria-label='student'>🎓</span>
+                {this.state.numberOfRecipients}
+              </div>
+            </div>
+          </div>
+          <div className='column is-6-tablet'>
+            {this.state.isUniversity
+              ? <University
+                contract={this.state.contract}
+                web3={this.state.web3}
+                address={this.state.address}
+                ended={this.state.ended}
+              />
+              : <Course
+                contract={this.state.contract}
+                web3={this.state.web3}
+                ended={this.state.ended}
+                isAttendant={this.state.isAttendant}
+                isRecipient={this.state.isRecipient}
+                address={this.state.address}
+              />
+            }
+          </div>
         </div>
       </div>
     )
