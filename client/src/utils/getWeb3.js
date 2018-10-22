@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 
-
 const getWeb3 = () =>
   new Promise((resolve, reject) => {
     // Wait for loading completion to avoid race conditions with web3 injection timing.
@@ -11,13 +10,13 @@ const getWeb3 = () =>
           await window.ethereum.enable()
           resolve(web3)
         } catch (error) {
-          reject()
+          reject(new Error('Dapp was not authorized'))
         }
       } else if (window.web3) {
         const web3 = new Web3(window.web3.currentProvider)
         resolve(web3)
       } else {
-        reject()
+        reject(new Error('Could not find web3 instance, please install Metamask'))
       }
     })
   })
