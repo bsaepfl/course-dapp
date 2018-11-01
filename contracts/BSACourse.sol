@@ -4,11 +4,13 @@ contract BSACourse {
   string public name;
   uint public credits;
   address public university;
-  
+   
+   /* #n2
   uint public numberOfAttendants;
   uint public numberOfRecipients;
   mapping(address => bool) public attendants;
   mapping(address => bool) public recipients;
+  */
   
   /* #n3
   bool public ended;
@@ -20,10 +22,12 @@ contract BSACourse {
     credits = _credits;
   }
   
+  /* #n2
   modifier onlyUniversity() {
     require(msg.sender == university);
     _;
   }
+  */
   
   /* #n3
   modifier stillOpen() {
@@ -32,6 +36,7 @@ contract BSACourse {
   }
   */
   
+  /* #n2
   function enroll() public 
   // #n3 stillOpen()
   {
@@ -39,7 +44,9 @@ contract BSACourse {
     attendants[msg.sender] = true;
     numberOfAttendants++;
   }
+  */
   
+  /* #n2
   function pass(address student) public onlyUniversity()
   // #n3 stillOpen()
   {
@@ -47,6 +54,7 @@ contract BSACourse {
     recipients[student] = true;
     numberOfRecipients++;
   }
+  */
   
   /* #n3
   function close() public onlyUniversity() stillOpen() {

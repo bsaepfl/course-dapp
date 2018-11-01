@@ -1,5 +1,5 @@
 import React, { Component/* #n3 , Fragment*/ } from 'react'
-import QR from './QR'
+// #n2 import QR from './QR'
 
 class University extends Component {
   constructor (props) {
@@ -8,10 +8,11 @@ class University extends Component {
       qrData: null,
       looking: false
     }
-    this.findQR = this.findQR.bind(this)
+    // #n2 this.findQR = this.findQR.bind(this)
     // #n3 this.endCourse = this.endCourse.bind(this)
   }
 
+  /* #n2
   async findQR (qrData) {
     if (this.props.web3.utils.isAddress(qrData)) {
       this.setState({ qrData, looking: false })
@@ -21,6 +22,7 @@ class University extends Component {
       }
     }
   }
+  */
 
   /* #n3
   endCourse () {
@@ -36,6 +38,7 @@ class University extends Component {
         {/* #n3 {!this.props.ended */}
         {/* #n3 ? <Fragment> */}
         
+        {/* #n2
             {this.state.qrData && <p>Student found: {this.state.qrData}</p>}
             <div>
               {!this.state.looking
@@ -45,7 +48,8 @@ class University extends Component {
                 : <QR onFind={this.findQR} />
               }
             </div>
-            
+        */}
+        
             {/* #n3 <br />
             <div>
               <button className='button is-danger' onClick={this.endCourse} >

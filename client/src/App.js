@@ -19,10 +19,10 @@ class App extends Component {
       name: null,
       credits: 0,
       university: '',
-      numberOfAttendants: 0,
-      numberOfRecipients: 0,
-      isAttendant: false,
-      isRecipient: false,
+      // #n2 numberOfAttendants: 0,
+      // #n2 numberOfRecipients: 0,
+      // #n2 isAttendant: false,
+      // #n2 isRecipient: false,
       // #n3 ended: false,
       address: ''
     }
@@ -64,21 +64,21 @@ class App extends Component {
 
     const name = await contract.name()
     const credits = await contract.credits()
-    const numberOfAttendants = await contract.numberOfAttendants()
-    const numberOfRecipients = await contract.numberOfRecipients()
+    // #n2 const numberOfAttendants = await contract.numberOfAttendants()
+    // #n2 const numberOfRecipients = await contract.numberOfRecipients()
     // #n3 const ended = await contract.ended()
-    const isAttendant = await contract.attendants(address)
-    const isRecipient = await contract.recipients(address)
+    // #n2 const isAttendant = await contract.attendants(address)
+    // #n2 const isRecipient = await contract.recipients(address)
     const university = await contract.university()
     const isUniversity = address === university
 
     this.setState({
       name,
       credits: credits.toNumber(),
-      numberOfAttendants: numberOfAttendants.toNumber(),
-      numberOfRecipients: numberOfRecipients.toNumber(),
-      isAttendant,
-      isRecipient,
+      // #n2 numberOfAttendants: numberOfAttendants.toNumber(),
+      // #n2 numberOfRecipients: numberOfRecipients.toNumber(),
+      // #n2 isAttendant,
+      // #n2 isRecipient,
       isUniversity,
       // #n3 ended,
       address: accounts[0]
@@ -96,6 +96,7 @@ class App extends Component {
           <div className='column is-6-tablet'>
             <h1 className='title has-text-centered'>{this.state.name} [{this.state.credits} credit(s)]</h1>
             <h4 className='subtitle is-5'>contract {this.state.contract.address}</h4>
+            {/*
             <div className='columns'>
               <div className='column is-6 has-text-centered'>
                 <span role='img' aria-label='nerd'>🤓 </span>
@@ -106,6 +107,7 @@ class App extends Component {
                 {this.state.numberOfRecipients}
               </div>
             </div>
+            */}
           </div>
           <div className='column is-6-tablet'>
             {this.state.isUniversity
@@ -119,8 +121,8 @@ class App extends Component {
                 contract={this.state.contract}
                 web3={this.state.web3}
                 // #n3 ended={this.state.ended}
-                isAttendant={this.state.isAttendant}
-                isRecipient={this.state.isRecipient}
+                // #n2 isAttendant={this.state.isAttendant}
+                // #n2 isRecipient={this.state.isRecipient}
                 address={this.state.address}
               />
             }
