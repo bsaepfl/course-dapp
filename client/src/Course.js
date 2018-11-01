@@ -18,9 +18,11 @@ class Course extends Component {
         {this.props.isRecipient &&
           <h4 className='title is-4 has-text-primary'>You have passed this course.</h4>
         }
-        {!this.props.ended
-          ? (
-            <Fragment>
+        
+        {/* #n3 {!this.props.ended */}
+        {/* #n3 ? ( */}
+        {/* #n3   <Fragment> */}
+        
               <button className='button is-primary is-large' disabled={this.props.isAttendant} onClick={this.enroll}>Enroll</button>
               {this.props.isAttendant && (
                 <Fragment>
@@ -28,14 +30,16 @@ class Course extends Component {
                   <QRCode value={this.props.address} style={{ maxWidth: '300px', marginLeft: 'auto', position: 'relative' }} />
                 </Fragment>
               )}
-            </Fragment>
+              
+        {/* #n3  </Fragment>
           )
           : (
             <Fragment>
               <p>This course has ended</p>
             </Fragment>
           )
-        }
+        } */}
+        
       </div>
     )
   }

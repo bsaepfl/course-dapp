@@ -23,7 +23,7 @@ class App extends Component {
       numberOfRecipients: 0,
       isAttendant: false,
       isRecipient: false,
-      ended: false,
+      // #n3 ended: false,
       address: ''
     }
     this.getValues = this.getValues.bind(this)
@@ -66,7 +66,7 @@ class App extends Component {
     const credits = await contract.credits()
     const numberOfAttendants = await contract.numberOfAttendants()
     const numberOfRecipients = await contract.numberOfRecipients()
-    const ended = await contract.ended()
+    // #n3 const ended = await contract.ended()
     const isAttendant = await contract.attendants(address)
     const isRecipient = await contract.recipients(address)
     const university = await contract.university()
@@ -80,7 +80,7 @@ class App extends Component {
       isAttendant,
       isRecipient,
       isUniversity,
-      ended,
+      // #n3 ended,
       address: accounts[0]
     })
   }
@@ -113,12 +113,12 @@ class App extends Component {
                 contract={this.state.contract}
                 web3={this.state.web3}
                 address={this.state.address}
-                ended={this.state.ended}
+                // #n3 ended={this.state.ended}
               />
               : <Course
                 contract={this.state.contract}
                 web3={this.state.web3}
-                ended={this.state.ended}
+                // #n3 ended={this.state.ended}
                 isAttendant={this.state.isAttendant}
                 isRecipient={this.state.isRecipient}
                 address={this.state.address}

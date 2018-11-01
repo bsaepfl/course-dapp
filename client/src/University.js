@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component/* #n3 , Fragment*/ } from 'react'
 import QR from './QR'
 
 class University extends Component {
@@ -9,7 +9,7 @@ class University extends Component {
       looking: false
     }
     this.findQR = this.findQR.bind(this)
-    this.endCourse = this.endCourse.bind(this)
+    // #n3 this.endCourse = this.endCourse.bind(this)
   }
 
   async findQR (qrData) {
@@ -22,16 +22,20 @@ class University extends Component {
     }
   }
 
+  /* #n3
   endCourse () {
     return this.props.contract.close({ from: this.props.address })
   }
+  */
 
   render () {
     return (
       <div className='box has-text-centered'>
         <h1 className='title'><span role='img' aria-label='university'>🏫</span> University</h1>
-        {!this.props.ended
-          ? <Fragment>
+        
+        {/* #n3 {!this.props.ended */}
+        {/* #n3 ? <Fragment> */}
+        
             {this.state.qrData && <p>Student found: {this.state.qrData}</p>}
             <div>
               {!this.state.looking
@@ -41,15 +45,17 @@ class University extends Component {
                 : <QR onFind={this.findQR} />
               }
             </div>
-            <br />
+            
+            {/* #n3 <br />
             <div>
               <button className='button is-danger' onClick={this.endCourse} >
                   End Course
               </button>
-            </div>
-          </Fragment>
-          : <p className='subtitle is-6 has-text-danger'>Class has ended</p>
-        }
+            </div> */}
+        {/* #n3 </Fragment> */}
+        {/* #n3 : <p className='subtitle is-6 has-text-danger'>Class has ended</p> */}
+        {/* } */}
+        
       </div>
     )
   }
